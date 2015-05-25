@@ -47,8 +47,14 @@ Redlight.prototype.getRequestCount = function(hostname, cb){
   })
 };
 
-Redlight.prototype.middleware = function(req, res, next){
+Redlight.prototype.getRemainingExpiry = function(hostname, cb){
+  this.redis.ttl('redlight:' + hostname, function(err, res){
+    cb(res);
+  });
+};
 
+Redlight.prototype.middleware = function(req, res, next){
+  var _this = this;
   var hostname = req.ip;
 
   this.setClient(hostname);
@@ -56,7 +62,12 @@ Redlight.prototype.middleware = function(req, res, next){
 
   this.getRequestCount(hostname, function(count){
     if(count > this.maxRequests){
-      res.status(429).send('Rate limit exceeded');
+
+      _this.getRemainingExpiry(hostname, function(remaining){
+        res.set('Retry-After', remaining / 1000.0);
+        res.status(429).send('Rate limit exceeded');
+      });
+
     } else {
       next();
     }
