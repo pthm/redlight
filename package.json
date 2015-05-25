@@ -1,0 +1,28 @@
+{
+  "name": "redlight",
+  "version": "1.0.0",
+  "description": "Express rate-limiter middleware powered by Redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pthm/redlight.git"
+  },
+  "keywords": [
+    "redis",
+    "rate",
+    "limiter",
+    "express"
+  ],
+  "author": "Patt-tom McDonnell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pthm/redlight/issues"
+  },
+  "homepage": "https://github.com/pthm/redlight",
+  "dependencies": {
+    "redis": "^0.12.1"
+  }
+}
